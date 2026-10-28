@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { supabase } from './utils/supabase'
 import MealCard from './MealCard' 
 import './App.css'
-import "@picocss/pico/css/pico.css"
+import "@picocss/pico/css/pico.css" 
 
 
 function App() {
