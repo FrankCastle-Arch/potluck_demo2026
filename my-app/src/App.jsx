@@ -6,6 +6,7 @@ import "@picocss/pico/css/pico.css";
 
 function App() {
   const [meals, setMeals] = useState([]);
+  const [ingredients, setIngredients] = useState([]);
 
   const loadMeals = async () => {
     const { data, error } = await supabase.from("meals").select();
@@ -15,6 +16,16 @@ function App() {
     }
     console.log(data);
     setMeals(data);
+  };
+
+  const loadIngredients = async () => {
+    const { data, error } = await supabase.from("ingredients").select();
+    if (error) {
+      console.log(error.message);
+      return;
+    }
+    console.log(data);
+    setIngredients(data);
   };
 
   const addMeal = async (event) => {
@@ -30,34 +41,28 @@ function App() {
       console.log(result.error.message);
       return;
     }
-  };
-
-  const [ingredients, setIngredients] = useState([]);
-
-  const loadIngredients = async () => {
-    const { data, error } = await supabase.from("ingredients").select();
-    if (error) {
-      console.log(error.message);
-      return;
-    }
-    console.log(data);
-    setIngredients(data);
+    form.reset();
+    loadMeals();
   };
 
   const removeMeal = async (id) => {
-    const result = await supabase.from("meals").remove().eq("id", id);
+    const result = await supabase.from("meals").delete().eq("id", id);
     if (result.error) {
       console.log(result.error.message);
       return;
     }
-    reload();
+    loadMeals();
   };
+
+  const resetPage = () => {
+  setMeals([]);
+};
 
   return (
     <div>
       <h1>Potluck</h1>
       <button onClick={loadMeals}>Load</button>
-      {data.map((meal) => (
+      {meals.map((meal) => (
         <MealCard key={meal.id} meal={meal} onRemove={removeMeal} />
       ))}
 
@@ -70,18 +75,10 @@ function App() {
         <input name="servings" type="number" placeholder="Serves" />
         <button>Add</button>
       </form>
-
-      <h2>Allergies?</h2>
-      <button onClick={loadIngredients}>Load</button>
-      {ingredients.map((ingredient) => (
-        <p key={ingredient.id}>{ingredient.name}</p>
-      ))}
+      <br></br>
+      <button className="secondary" onClick={resetPage}>Reset</button>
     </div>
   );
 }
-
-
-
-
 
 export default App;
