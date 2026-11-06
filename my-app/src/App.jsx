@@ -60,8 +60,8 @@ function App() {
 
   return (
     <div>
-      <h1>Potluck</h1>
-      <button onClick={loadMeals}>Load</button>
+      <h1>Plate Expectations</h1>
+      <button onClick={loadMeals}>What are we eating?</button>
       {meals.map((meal) => (
         <MealCard key={meal.id} meal={meal} onRemove={removeMeal} />
       ))}
@@ -69,7 +69,7 @@ function App() {
       <br></br>
       <br></br>
       <form onSubmit={addMeal}>
-        <h2>Want to add a meal?</h2>
+        <h3>Sign up below so we don't end up with eleven bags of chips.</h3>
         <input name="name" placeholder="Dish" />
         <input name="guest" placeholder="Your name" />
         <input name="servings" type="number" placeholder="Serves" />
